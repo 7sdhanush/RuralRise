@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faculty Leave Application - Student Monitoring Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: linear-gradient(180deg, #00264d, #4facfe);
+            color: #fff;
+            min-height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 14px 25px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content-wrapper {
+            margin-left: 230px;
+            width: calc(100% - 230px);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .main {
+            padding: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+        }
+
+        .status-approved {
+            color: green;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: 600;
+        }
+
+        .status-rejected {
+            color: red;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #00264d;
+            color: white;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>📋 Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="document_download.html">🗂️ Documents</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="performance_graph.html">📊 Performance</a>
+        <a href="login.html">🚪 Logout</a>
+    </div>
+
+    <div class="content-wrapper">
+
+        <header>Faculty Leave Application Page</header>
+
+        <div class="main">
+            <div class="card">
+                <h2>Apply for Leave</h2>
+                <form id="leaveForm">
+                    <label>Faculty Name:</label>
+                    <input type="text" id="facultyName" required>
+
+                    <label>Leave Type:</label>
+                    <select id="leaveType" required>
+                        <option>Sick Leave</option>
+                        <option>Personal Leave</option>
+                        <option>Emergency</option>
+                    </select>
+
+                    <label>From Date:</label>
+                    <input type="date" id="fromDate" required>
+
+                    <label>To Date:</label>
+                    <input type="date" id="toDate" required>
+
+                    <label>Reason:</label>
+                    <textarea rows="4" id="reason" required></textarea>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Leave Application Status</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Leave Type</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaveTableBody">
+                        <tr>
+                            <td>Dr. Suresh Kumar</td>
+                            <td>Personal Leave</td>
+                            <td>2025-07-15</td>
+                            <td>2025-07-17</td>
+                            <td>Medical Checkup</td>
+                            <td class="status-approved">Approved</td>
+                        </tr>
+                        <tr>
+                            <td>Ms. Sri Devi</td>
+                            <td>Personal Leave</td>
+                            <td>2025-07-19</td>
+                            <td>2025-07-19</td>
+                            <td>Family function</td>
+                            <td class="status-pending">Pending</td>
+                        </tr>
+                        <tr>
+                            <td>Mr. Arjun</td>
+                            <td>Emergency</td>
+                            <td>2025-07-12</td>
+                            <td>2025-07-13</td>
+                            <td>Travel urgency</td>
+                            <td class="status-rejected">Rejected</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+    </div>
+
+    <!-- ✅ ONLY NEW SCRIPT ADDED -->
+    <script>
+        document.getElementById("leaveForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("facultyName").value;
+            const type = document.getElementById("leaveType").value;
+            const from = document.getElementById("fromDate").value;
+            const to = document.getElementById("toDate").value;
+            const reason = document.getElementById("reason").value;
+
+            const tableBody = document.getElementById("leaveTableBody");
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${type}</td>
+                <td>${from}</td>
+                <td>${to}</td>
+                <td>${reason}</td>
+                <td class="status-pending">Pending</td>
+            `;
+
+            tableBody.prepend(row);
+            alert("Leave request submitted successfully!");
+            this.reset();
+        });
+    </script>
+
+</body>
+
+</html>

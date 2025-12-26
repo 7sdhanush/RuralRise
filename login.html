@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RuralRise Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Background Balls */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: #4facfe;
+            top: 10%;
+            left: 10%;
+            animation: move1 6s ease-in-out infinite alternate;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: #ff6ec7;
+            bottom: 15%;
+            right: 12%;
+            animation: move2 8s ease-in-out infinite alternate;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: #00c6a7;
+            top: 40%;
+            right: 20%;
+            animation: move3 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, -40px);
+            }
+
+            100% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+            }
+
+            100% {
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -50px);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        /* Header */
+        header {
+            background: #00264d;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        header h2 {
+            color: #cce0ff;
+            font-size: 14px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Toggle buttons */
+        .toggle-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .toggle-btns button {
+            flex: 1;
+            padding: 12px;
+            margin: 0 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            border-radius: 8px;
+            transition: 0.4s;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .toggle-btns button:hover {
+            transform: scale(1.05) rotate(1deg);
+            background: linear-gradient(135deg, #185a9d, #43cea2);
+        }
+
+        /* Forms */
+        form {
+            display: none;
+            flex-direction: column;
+        }
+
+        form.active {
+            display: flex;
+            animation: fadeForm 0.8s ease forwards;
+        }
+
+        @keyframes fadeForm {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4facfe;
+            outline: none;
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #185a9d, #43cea2);
+        }
+
+        /* Forgot password link */
+        .forgot-link {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .forgot-link a {
+            text-decoration: none;
+            color: #4facfe;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .forgot-link a:hover {
+            color: #185a9d;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Balls -->
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <header>
+        <h1>RURALRISE</h1>
+        <h2>Empowering Young Minds</h2>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="toggle-btns">
+                <button onclick="showForm('login')">Login</button>
+                <button onclick="showForm('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="active" onsubmit="loginUser(event)" autocomplete="off">
+                <!-- Fake hidden input to block browser autofill -->
+                <input type="text" style="display:none">
+                <input type="password" style="display:none">
+
+                <label for="login-role">Login as:</label>
+                <select id="login-role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="STUDENT">Student</option>
+                    <option value="TEACHER">Teacher</option>
+                    <option value="PARENT">Parent</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+
+                <label for="email">Username (Email):</label>
+                <input type="email" id="email" required autocomplete="off" />
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" required autocomplete="new-password" />
+
+                <div class="forgot-link">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" onsubmit="signupUser(event)" autocomplete="off">
+                <input type="text" style="display:none">
+                <input type="password" style="display:none">
+
+                <label for="signup-role">Sign up as:</label>
+                <select id="signup-role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="STUDENT">Student</option>
+                    <option value="TEACHER">Teacher</option>
+                    <option value="PARENT">Parent</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+
+                <label for="signup-name">Full Name:</label>
+                <input type="text" id="signup-name" required autocomplete="off" />
+
+                <label for="signup-email">Username (Email):</label>
+                <input type="email" id="signup-email" required autocomplete="off" />
+
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" required autocomplete="new-password" />
+
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showForm(formType) {
+            document.getElementById("loginForm").classList.remove("active");
+            document.getElementById("signupForm").classList.remove("active");
+            if (formType === "login") {
+                document.getElementById("loginForm").classList.add("active");
+            } else {
+                document.getElementById("signupForm").classList.add("active");
+            }
+        }
+
+        // In-memory storage for demo
+        let users = [];
+
+        function signupUser(event) {
+            event.preventDefault();
+            const fullName = document.getElementById("signup-name").value.trim();
+            const email = document.getElementById("signup-email").value.trim();
+            const password = document.getElementById("signup-password").value.trim();
+            const role = document.getElementById("signup-role").value;
+
+            if (!fullName || !email || !password || !role) {
+                alert("Please fill all signup fields.");
+                return;
+            }
+
+            users.push({ fullName, email, password, role });
+            alert("Signup successful! You can now log in.");
+            showForm("login");
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const role = document.getElementById("login-role").value;
+
+            const user = users.find(u => u.email === email && u.password === password && u.role === role);
+            if (user) {
+                if (role === "STUDENT") window.location.href = "student_dashboard.html";
+                else if (role === "TEACHER") window.location.href = "teacher_dashboard.html";
+                else if (role === "PARENT") window.location.href = "parent_dashboard.html";
+                else if (role === "ADMIN") window.location.href = "admin_dashboard.html";
+            } else {
+                alert("Invalid credentials or role.");
+            }
+        }
+    </script>
+
+    <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+</body>
+
+</html>

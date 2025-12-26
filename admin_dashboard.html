@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Student Monitoring Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== EXISTING STYLES (UNCHANGED) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            top: 10%;
+            left: 10%;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: #ff6ec7;
+            bottom: 15%;
+            right: 12%;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: #00c6a7;
+            top: 40%;
+            right: 20%;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 600;
+            z-index: 5;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 80px;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: #4facfe;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #555;
+        }
+
+        h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <header>🧑 Admin Dashboard</header>
+
+    <nav>
+        <h2>📋 Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="history_page.html">🕒 Activity Log</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="teacher_leave.html">🧾 Faculty Leave Application</a>
+        <a href="login.html">🚪 Logout</a>
+    </nav>
+
+    <div class="main">
+
+        <div class="card">
+            <h2>Portal Overview</h2>
+            <p>Total Students: 245</p>
+            <p>Total Teachers: 64</p>
+            <p>Active Parents: 212</p>
+            <p>Classes Monitored: 24</p>
+        </div>
+
+        <!-- Manage Students -->
+        <div class="card">
+            <h2>Manage Students</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Roll No</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td>Aarthi M</td>
+                    <td>8th</td>
+                    <td>12</td>
+                    <td>
+                        <button class="btn edit">Edit</button>
+                        <button class="btn remove">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vignesh S</td>
+                    <td>9th</td>
+                    <td>8</td>
+                    <td>
+                        <button class="btn edit">Edit</button>
+                        <button class="btn remove">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Manage Teachers -->
+        <div class="card">
+            <h2>Manage Teachers</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td>Mrs. Lakshmi</td>
+                    <td>Science</td>
+                    <td>9876543210</td>
+                    <td>
+                        <button class="btn edit">Edit</button>
+                        <button class="btn remove">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mr. Ravi</td>
+                    <td>Math</td>
+                    <td>8765432109</td>
+                    <td>
+                        <button class="btn edit">Edit</button>
+                        <button class="btn remove">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Recent Announcements</h2>
+            <ul>
+                <li>PTM scheduled on 25th July at 10 AM</li>
+                <li>Annual Exam starts from 5th August</li>
+                <li>Holiday announced on 22nd July (Monday)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Generate Reports</h2>
+            <button class="btn download">Download Attendance Report</button>
+            <button class="btn download">Download Performance Summary</button>
+        </div>
+
+        <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+    </div>
+
+    <!-- ===== ONLY FUNCTIONALITY ADDED BELOW ===== -->
+    <script>
+        // EDIT FUNCTION
+        document.querySelectorAll(".edit").forEach(btn => {
+            btn.addEventListener("click", () => {
+                alert("You can change the details now.");
+                const row = btn.closest("tr");
+                row.querySelectorAll("td").forEach((cell, index) => {
+                    if (index < row.cells.length - 1) {
+                        const value = prompt("Edit value:", cell.innerText);
+                        if (value !== null) cell.innerText = value;
+                    }
+                });
+            });
+        });
+
+        // REMOVE FUNCTION
+        document.querySelectorAll(".remove").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (confirm("Are you sure you want to remove this entry?")) {
+                    btn.closest("tr").remove();
+                    alert("Details removed successfully.");
+                }
+            });
+        });
+
+        // DOWNLOAD FUNCTION
+        document.querySelectorAll(".download").forEach(btn => {
+            btn.addEventListener("click", () => {
+                alert("File successfully downloaded.");
+                const blob = new Blob(["Sample Report Content"], { type: "text/plain" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "report.txt";
+                link.click();
+            });
+        });
+    </script>
+
+</body>
+
+</html>

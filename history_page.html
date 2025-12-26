@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Activity Log</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background Balls */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            top: 10%;
+            left: 8%;
+            animation: move1 6s ease-in-out infinite alternate;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: #ff6ec7;
+            bottom: 12%;
+            right: 10%;
+            animation: move2 8s ease-in-out infinite alternate;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: #00c6a7;
+            top: 40%;
+            right: 20%;
+            animation: move3 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, -40px);
+            }
+
+            100% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+            }
+
+            100% {
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -50px);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: 600;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Side Navigation */
+        .sidebar {
+            width: 155px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            padding-top: 90px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .sidebar a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            color: white;
+            font-weight: 600;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 5px solid white;
+            padding-left: 17px;
+        }
+
+        /* Container adjusted for sidebar */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 5;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-left: 200px;
+            /* space for sidebar */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            width: 48%;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #5b86e5;
+            box-shadow: 0 0 6px rgba(91, 134, 229, 0.4);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #eef4ff;
+            transition: 0.3s ease;
+            transform: scale(1.01);
+        }
+
+        /* Footer centered */
+        footer {
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            background: #f4f8fb;
+            font-weight: 500;
+            margin-top: auto;
+            z-index: 5;
+            position: relative;
+        }
+
+        @media (max-width: 600px) {
+
+            .filters input,
+            .filters select {
+                width: 100%;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding-top: 20px;
+            }
+
+            .container {
+                margin-left: 0;
+            }
+        }
+
+        h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Balls -->
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>📋 Menu</h2>
+        <a href="admin_dashboard.html">🧑 Admin Dashboard</a>
+        <a href="announcements.html">📢 Announcement</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="teacher_leave.html">🧾 Faculty Leave Application</a>
+        <a href="login.html">🚪 Logout</a>
+    </div>
+
+    <header>
+        <h1> 🕒 Admin Activity Log / Change History</h1>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search by user or action..." onkeyup="filterTable()">
+            <select id="actionFilter" onchange="filterTable()">
+                <option value="">Filter by Action</option>
+                <option value="Login">Login</option>
+                <option value="Logout">Logout</option>
+                <option value="Marks Updated">Marks Updated</option>
+                <option value="Announcement Posted">Announcement Posted</option>
+                <option value="Leave Applied">Leave Applied</option>
+                <option value="Leave Approved">Leave Approved</option>
+                <option value="Leave Rejected">Leave Rejected</option>
+                <option value="Profile Updated">Profile Updated</option>
+                <option value="Message Sent">Message Sent</option>
+            </select>
+        </div>
+
+        <table id="activityTable">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Activity</th>
+                    <th>Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- All existing table rows kept exactly as in your previous code -->
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Login Successful</td>
+                    <td>2025-07-19 08:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Priya</td>
+                    <td>Teacher</td>
+                    <td>Login Successful</td>
+                    <td>2025-07-19 08:15 AM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Suresh</td>
+                    <td>Parent</td>
+                    <td>Login Successful</td>
+                    <td>2025-07-19 08:30 AM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Priya</td>
+                    <td>Teacher</td>
+                    <td>Logout Successful</td>
+                    <td>2025-07-19 01:45 PM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Suresh</td>
+                    <td>Parent</td>
+                    <td>Logout Successful</td>
+                    <td>2025-07-19 02:10 PM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Logout Successful</td>
+                    <td>2025-07-19 05:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Ramesh</td>
+                    <td>Teacher</td>
+                    <td>Marks Updated for Class 9 - Science</td>
+                    <td>2025-07-19 09:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Anjali</td>
+                    <td>Teacher</td>
+                    <td>Marks Updated for Class 10 - Tamil</td>
+                    <td>2025-07-19 09:30 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Bulk Marks Upload for Mid-Term</td>
+                    <td>2025-07-19 10:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Announcement Posted: Independence Day Program</td>
+                    <td>2025-07-18 03:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Kavitha</td>
+                    <td>Teacher</td>
+                    <td>Announcement Posted: Science Quiz</td>
+                    <td>2025-07-18 03:30 PM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Announcement Updated: Parent Meeting Rescheduled</td>
+                    <td>2025-07-18 04:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Arjun</td>
+                    <td>Student</td>
+                    <td>Leave Applied: 2 Days - Fever</td>
+                    <td>2025-07-17 09:15 AM</td>
+                </tr>
+                <tr>
+                    <td>Meena</td>
+                    <td>Student</td>
+                    <td>Leave Applied: 1 Day - Family Function</td>
+                    <td>2025-07-17 09:20 AM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Rajesh</td>
+                    <td>Parent</td>
+                    <td>Leave Applied for son (3 Days - Illness)</td>
+                    <td>2025-07-17 09:25 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Approved for Arjun</td>
+                    <td>2025-07-17 10:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Approved for Meena</td>
+                    <td>2025-07-17 10:15 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Approved for Rajesh's son</td>
+                    <td>2025-07-17 10:30 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Rejected for Saran - No Documents</td>
+                    <td>2025-07-17 11:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Rejected for Nithya - Late Submission</td>
+                    <td>2025-07-17 11:15 AM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Leave Rejected for Ravi - Reason Not Valid</td>
+                    <td>2025-07-17 11:30 AM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Priya</td>
+                    <td>Teacher</td>
+                    <td>Profile Updated: Contact Number</td>
+                    <td>2025-07-16 11:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Kavya</td>
+                    <td>Student</td>
+                    <td>Profile Updated: Address Changed</td>
+                    <td>2025-07-16 11:15 AM</td>
+                </tr>
+                <tr>
+                    <td>Ms. Meena</td>
+                    <td>Parent</td>
+                    <td>Profile Updated: Emergency Contact</td>
+                    <td>2025-07-16 11:30 AM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Suresh</td>
+                    <td>Parent</td>
+                    <td>Message Sent to Class Teacher</td>
+                    <td>2025-07-15 05:20 PM</td>
+                </tr>
+                <tr>
+                    <td>Mr. Ramesh</td>
+                    <td>Teacher</td>
+                    <td>Message Sent to Parent - Absence</td>
+                    <td>2025-07-15 06:00 PM</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>Admin</td>
+                    <td>Message Sent to All Parents: Exam Reminder</td>
+                    <td>2025-07-15 06:30 PM</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const actionFilter = document.getElementById("actionFilter").value.toLowerCase();
+            const table = document.getElementById("activityTable");
+            const rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName("td");
+                let user = cells[0].textContent.toLowerCase();
+                let activity = cells[2].textContent.toLowerCase();
+                let matchSearch = user.includes(searchInput) || activity.includes(searchInput);
+                let matchAction = !actionFilter || activity.includes(actionFilter);
+                rows[i].style.display = matchSearch && matchAction ? "" : "none";
+            }
+        }
+    </script>
+
+    <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+</body>
+
+</html>

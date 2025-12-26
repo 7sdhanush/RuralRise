@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Upload / Download</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ================= Sidebar ================= */
+        nav {
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            width: 230px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 90px;
+            z-index: 10;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+        }
+
+        nav h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* ================= Header ================= */
+        header {
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin-left: 230px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ================= Main Container ================= */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            margin-left: 260px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-section {
+            border: 2px dashed #5b86e5;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            background: #f9fcff;
+        }
+
+        .upload-section h3 {
+            margin-bottom: 15px;
+            color: #5b86e5;
+        }
+
+        .upload-section label,
+        .upload-section select,
+        .upload-section input,
+        .upload-section button {
+            display: block;
+            width: 100%;
+            margin: 12px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 6px;
+            color: #5b86e5;
+        }
+
+        .file-item {
+            background-color: #eef4ff;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-left: 230px;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <nav>
+        <h2>📋 Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="teacher_leave.html">🧾 Faculty Leave Application</a>
+        <a href="performance_graph.html">📊 Performance</a>
+        <a href="login.html">🚪 Logout</a>
+    </nav>
+
+    <header>📄 Document Upload & Download</header>
+
+    <div class="container">
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h3>Upload Document (Teachers Only)</h3>
+            <form id="uploadForm">
+                <label>Select Document Type:</label>
+                <select id="docType" required>
+                    <option value="">-- Choose Type --</option>
+                    <option value="syllabus">Syllabus</option>
+                    <option value="question">Question Paper</option>
+                    <option value="answer">Answer Key</option>
+                </select>
+
+                <input type="file" id="fileInput" required>
+                <button class="btn">Upload Document</button>
+            </form>
+        </div>
+
+        <!-- EXISTING FILES (UNCHANGED) -->
+        <h2>Syllabus</h2>
+        <div id="syllabusList">
+            <div class="file-item"><span>Class 6 - Term 1 Syllabus.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 7 - Full Year Syllabus.docx</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 8 - Term 2 Syllabus.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 9 - Combined Syllabus 2025.docx</span><button
+                    class="btn download">Download</button></div>
+        </div>
+
+        <h2>Question Papers</h2>
+        <div id="questionList">
+            <div class="file-item"><span>Class 6 - Maths Mid-Term.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 7 - Science Annual.docx</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 8 - English Prelims.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 9 - Social Science SA2.docx</span><button
+                    class="btn download">Download</button></div>
+        </div>
+
+        <h2>Answer Keys</h2>
+        <div id="answerList">
+            <div class="file-item"><span>Class 6 - English Mid-Term Answers.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 7 - Tamil Final Answers.doc</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 8 - Maths Objective Answer Key.pdf</span><button
+                    class="btn download">Download</button></div>
+            <div class="file-item"><span>Class 9 - Science Paper Solution.docx</span><button
+                    class="btn download">Download</button></div>
+        </div>
+
+    </div>
+
+    <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+
+    <script>
+        // Download popup
+        document.querySelectorAll(".download").forEach(btn => {
+            btn.addEventListener("click", () => {
+                alert("📥 Download started...");
+            });
+        });
+
+        // Upload handling
+        document.getElementById("uploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const type = docType.value;
+            const file = fileInput.files[0];
+
+            if (!file) return;
+
+            const div = document.createElement("div");
+            div.className = "file-item";
+            div.innerHTML = `<span>${file.name}</span><button class="btn download">Download</button>`;
+
+            if (type === "syllabus") syllabusList.appendChild(div);
+            if (type === "question") questionList.appendChild(div);
+            if (type === "answer") answerList.appendChild(div);
+
+            alert(`✅ Uploaded successfully: ${file.name}`);
+            this.reset();
+        });
+    </script>
+
+</body>
+
+</html>

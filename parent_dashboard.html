@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent Dashboard | RuralRise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Background Balls */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            top: 10%;
+            left: 10%;
+            animation: move1 6s ease-in-out infinite alternate;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: #ff6ec7;
+            bottom: 15%;
+            right: 12%;
+            animation: move2 8s ease-in-out infinite alternate;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: #00c6a7;
+            top: 40%;
+            right: 20%;
+            animation: move3 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, -40px);
+            }
+
+            100% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+            }
+
+            100% {
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -50px);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding-top: 20px;
+            z-index: 5;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Main content */
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards */
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .card:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #00264d;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-grid p {
+            margin: 6px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #00264d, #4facfe);
+        }
+
+        .status-completed {
+            color: green;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover {
+            background: #4facfe;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #555;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Balls -->
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>📋 Parent Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="document_download.html">🗂️ Documents</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="performance_graph.html">📊 Ward Performance</a>
+        <a href="login.html">🚪 Logout</a>
+    </div>
+
+    <div class="main">
+        <header>Welcome to RuralRise - Parent Dashboard</header>
+
+        <!-- Parent Profile -->
+        <div class="card">
+            <h2>Parent Profile</h2>
+            <div class="info-grid">
+                <p><strong>Parent Name:</strong> Mr. Saravana Kumar</p>
+                <p><strong>Occupation:</strong> Central Government Employee</p>
+                <p><strong>Contact Number:</strong> 9876543210</p>
+                <p><strong>Email:</strong> saravanakumar7@gmail.com</p>
+                <p><strong>Mother's Name:</strong> Mrs. Sangeetha C</p>
+                <p><strong>Occupation:</strong> Homemaker</p>
+                <p><strong>Contact:</strong> 9876543211</p>
+                <p><strong>Email:</strong> sangeetha8@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- Child Profile -->
+        <div class="card">
+            <h2>Child Profile</h2>
+            <div class="info-grid">
+                <p><strong>Student Name:</strong> Dhanush S</p>
+                <p><strong>Class:</strong> 10</p>
+                <p><strong>Section:</strong> A</p>
+                <p><strong>Student ID:</strong> S210</p>
+                <p><strong>Date of Birth:</strong> 2009-07-25</p>
+                <p><strong>Blood Group:</strong> B+</p>
+                <p><strong>Age:</strong> 16</p>
+                <p><strong>Contact Number:</strong> 9876543210</p>
+            </div>
+        </div>
+
+        <!-- Subject-wise Performance -->
+        <div class="card">
+            <h2>Subject-wise Performance</h2>
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks</th>
+                    <th>Grade</th>
+                </tr>
+                <tr>
+                    <td>Tamil</td>
+                    <td>100</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td>90</td>
+                    <td>A+</td>
+                </tr>
+                <tr>
+                    <td>Mathematics</td>
+                    <td>100</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>Science</td>
+                    <td>99</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>Social Science</td>
+                    <td>92</td>
+                    <td>A+</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Attendance -->
+        <div class="card">
+            <h2>Monthly Attendance</h2>
+            <table>
+                <tr>
+                    <th>Month</th>
+                    <th>Present</th>
+                    <th>Total Days</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>June</td>
+                    <td>24</td>
+                    <td>26</td>
+                    <td>92.3%</td>
+                </tr>
+                <tr>
+                    <td>July</td>
+                    <td>22</td>
+                    <td>24</td>
+                    <td>91.6%</td>
+                </tr>
+                <tr>
+                    <td>August</td>
+                    <td>25</td>
+                    <td>26</td>
+                    <td>96.1%</td>
+                </tr>
+                <tr>
+                    <td>September</td>
+                    <td>21</td>
+                    <td>22</td>
+                    <td>95.4%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Class Teacher -->
+        <div class="card">
+            <h2>Class Teacher Details</h2>
+            <div class="info-grid">
+                <p><strong>Name:</strong> Mrs. Rekha Sharma</p>
+                <p><strong>Subject:</strong> Science</p>
+                <p><strong>Email:</strong> rekhasharma12@ruralrise.edu</p>
+                <p><strong>Phone:</strong> 9876543213</p>
+            </div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="card">
+            <h2>Latest Announcements</h2>
+            <ul>
+                <li>📌 Parents meeting scheduled for 10th September 2025.</li>
+                <li>📌 Mid-term results to be released by 5th October.</li>
+                <li>📌 School picnic planned for 20th November.</li>
+            </ul>
+        </div>
+
+        <!-- Message to Class Teacher -->
+        <div class="card">
+            <h2>Message to Class Teacher</h2>
+            <form id="messageForm">
+                <label for="subject"><strong>Subject:</strong></label><br>
+                <input type="text" id="subject" name="subject" placeholder="Enter subject" required
+                    style="width:100%;padding:8px;"><br><br>
+
+                <label for="message"><strong>Message:</strong></label><br>
+                <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required
+                    style="width:100%;padding:8px;"></textarea><br><br>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Teacher Remarks -->
+        <div class="card">
+            <h2>Subject-wise Teacher Remarks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Teacher's Remark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>English</td>
+                        <td>Needs to improve reading fluency.</td>
+                    </tr>
+                    <tr>
+                        <td>Mathematics</td>
+                        <td>Good grasp of concepts and quick in problem solving.</td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>Very attentive and asks relevant questions.</td>
+                    </tr>
+                    <tr>
+                        <td>Tamil</td>
+                        <td>Excellent in written work.</td>
+                    </tr>
+                    <tr>
+                        <td>Social Science</td>
+                        <td>Needs to revise historical dates regularly.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Assignments -->
+        <div class="card">
+            <h2>Assignment Completion Status</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Assignment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>English</td>
+                        <td>Essay on My Hobby</td>
+                        <td class="status-completed">Completed</td>
+                    </tr>
+                    <tr>
+                        <td>Math</td>
+                        <td>Chapter 4 Exercises</td>
+                        <td class="status-pending">Pending</td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>Solar System Project</td>
+                        <td class="status-completed">Completed</td>
+                    </tr>
+                    <tr>
+                        <td>Tamil</td>
+                        <td>Poem Memorization</td>
+                        <td class="status-completed">Completed</td>
+                    </tr>
+                    <tr>
+                        <td>Social Science</td>
+                        <td>Map Activity</td>
+                        <td class="status-pending">Pending</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>&copy; 2025 RuralRise Portal. All rights reserved.</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Report Card - Performance History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f8fb;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* ========== SIDE NAVIGATION BAR ========== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 140px;
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe, #36d1dc);
+            padding-top: 80px;
+            z-index: 10;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 14px 22px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* Push content right */
+        header,
+        .container {
+            margin-left: 240px;
+        }
+
+        /* Animated background balls */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4facfe, #36d1dc);
+            top: 10%;
+            left: 10%;
+            animation: move1 6s ease-in-out infinite alternate;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #ff6ec7, #ff8a65);
+            bottom: 15%;
+            right: 12%;
+            animation: move2 8s ease-in-out infinite alternate;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #00c6a7, #1e3c72);
+            top: 40%;
+            right: 20%;
+            animation: move3 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, -40px);
+            }
+
+            100% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+            }
+
+            100% {
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -50px);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        header {
+            background: linear-gradient(135deg, #4facfe, #36d1dc);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            margin: 30px auto;
+            max-width: 1000px;
+            font-size: 28px;
+            font-weight: 600;
+            position: relative;
+            z-index: 5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 5;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #00264d;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: #4facfe;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe, #36d1dc);
+            color: white;
+        }
+
+        canvas {
+            max-width: 100%;
+            margin: 30px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: linear-gradient(135deg, #4facfe, #36d1dc);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media(max-width: 768px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            header,
+            .container {
+                margin-left: 210px;
+            }
+        }
+
+        h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDE NAVIGATION -->
+    <div class="sidebar">
+        <h2>📋 Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">📅 Academic Calendar</a>
+        <a href="document_download.html">🗂️ Documents</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="teacher_leave.html">🧾 Faculty Leave Application</a>
+        <a href="logout.html">🚪 Logout</a>
+    </div>
+
+    <!-- Background Balls -->
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <header>📊 Student Report Card</header>
+
+    <div class="container" id="reportCard">
+        <div class="student-info">
+            <h2>Arjun Kumar</h2>
+            <p>Class: 8th Grade | Roll No: 14 | Academic Year: 2024–2025</p>
+        </div>
+
+        <h3>Subject-wise Marks and Teacher Comments</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks Obtained</th>
+                    <th>Teacher's Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mathematics</td>
+                    <td>92 / 100</td>
+                    <td>Excellent logical skills and consistent improvement.</td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td>85 / 100</td>
+                    <td>Good grammar and comprehension. Keep reading!</td>
+                </tr>
+                <tr>
+                    <td>Science</td>
+                    <td>88 / 100</td>
+                    <td>Very curious and observant. Great participation.</td>
+                </tr>
+                <tr>
+                    <td>Social Science</td>
+                    <td>90 / 100</td>
+                    <td>Strong understanding of concepts and history.</td>
+                </tr>
+                <tr>
+                    <td>Tamil</td>
+                    <td>87 / 100</td>
+                    <td>Shows improvement in writing and speaking.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Term-wise Performance Overview</h3>
+        <canvas id="performanceChart" height="300"></canvas>
+
+        <a class="btn" onclick="downloadPDF()">Download as PDF</a>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Term 1', 'Term 2', 'Term 3'],
+                datasets: [{
+                    label: 'Average Marks',
+                    data: [85, 88, 90],
+                    backgroundColor: ['#4facfe', '#36d1dc', '#4facfe'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, max: 100 },
+                }
+            }
+        });
+
+        function downloadPDF() {
+            html2pdf().from(document.getElementById('reportCard')).save('Student_Report_Card.pdf');
+        }
+    </script>
+
+</body>
+
+</html>

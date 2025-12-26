@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Announcements - Student Monitoring Portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        nav {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 80px;
+            z-index: 5;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: #4facfe;
+            transform: scale(1.05);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-left: 220px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .container {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        /* Controls */
+        .admin-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .admin-controls button {
+            background: linear-gradient(135deg, #ff7e5f, #ff6a00);
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .admin-controls button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filters button {
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filters button.active {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+        }
+
+        /* Announcement Card */
+        .announcement {
+            background: #fff;
+            border-left: 6px solid #4facfe;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .announcement h3 {
+            color: #00264d;
+        }
+
+        .category {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .remove-btn {
+            margin-top: 10px;
+            background: crimson;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: white;
+            width: 400px;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        .modal-content button {
+            width: 100%;
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #555;
+            margin-left: 220px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <nav>
+        <h2>📋 Menu</h2>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="document_download.html">🗂️ Documents</a>
+        <a href="student_leave.html">📝Student Leave Application</a>
+        <a href="teacher_leave.html">🧾 Faculty Leave Application</a>
+        <a href="performance_graph.html">📊 Performance</a>
+        <a href="login.html">🚪 Logout</a>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>📢 Announcements / Notice Board</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Controls -->
+        <div class="admin-controls">
+            <button onclick="openModal()">➕ Add Announcement</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="active" onclick="filterAnnouncements('All')">All</button>
+            <button onclick="filterAnnouncements('Exams')">Exams</button>
+            <button onclick="filterAnnouncements('Holidays')">Holidays</button>
+            <button onclick="filterAnnouncements('Events')">Events</button>
+            <button onclick="filterAnnouncements('Circulars')">Circulars</button>
+            <button onclick="filterAnnouncements('PTA')">PTA Meetings</button>
+        </div>
+
+        <div id="announcementList"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3>Add Announcement</h3>
+            <input id="title" placeholder="Title">
+            <textarea id="desc" placeholder="Description"></textarea>
+            <select id="category">
+                <option>Exams</option>
+                <option>Holidays</option>
+                <option>Events</option>
+                <option>Circulars</option>
+                <option>PTA</option>
+            </select>
+            <button onclick="addAnnouncement()">Save</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 RuralRise Portal. All rights reserved.
+    </footer>
+
+    <script>
+        let announcements = [
+            { title: "Quarterly Exams", description: "Quarterly exams start from Sept 5.", category: "Exams" },
+            { title: "Model Exam", description: "Model exams scheduled for Oct 1.", category: "Exams" },
+            { title: "Practical Exams", description: "Lab practicals begin Sept 28.", category: "Exams" },
+            { title: "Unit Test", description: "Unit test for classes 6–9 on Aug 25.", category: "Exams" },
+
+            { title: "Independence Day", description: "School closed on Aug 15.", category: "Holidays" },
+            { title: "Pongal Holidays", description: "School closed Jan 13–17.", category: "Holidays" },
+            { title: "Gandhi Jayanti", description: "Holiday on Oct 2.", category: "Holidays" },
+            { title: "Onam Holiday", description: "School closed on Aug 30.", category: "Holidays" },
+
+            { title: "Sports Day", description: "Annual sports day on Sept 15.", category: "Events" },
+            { title: "Science Expo", description: "Science exhibition on Oct 10.", category: "Events" },
+            { title: "Cultural Fest", description: "Cultural fest on Nov 12–14.", category: "Events" },
+            { title: "Teachers Day", description: "Celebration on Sept 5.", category: "Events" },
+
+            { title: "Uniform Circular", description: "Revised uniform rules apply.", category: "Circulars" },
+            { title: "Bus Timing Change", description: "New timings from Aug 22.", category: "Circulars" },
+            { title: "Library Rules", description: "Library open 9AM–4PM.", category: "Circulars" },
+            { title: "ID Cards", description: "ID cards issued from Sept 3.", category: "Circulars" },
+
+            { title: "PTA Class 10", description: "PTA meeting on Sept 10.", category: "PTA" },
+            { title: "PTA Class 12", description: "PTA meeting on Sept 12.", category: "PTA" },
+            { title: "Online PTA", description: "Online PTA on Aug 20.", category: "PTA" },
+            { title: "Exam Review PTA", description: "PTA on Oct 8.", category: "PTA" }
+        ];
+
+        function renderAnnouncements(filter = "All") {
+            const list = document.getElementById("announcementList");
+            list.innerHTML = "";
+            announcements
+                .filter(a => filter === "All" || a.category === filter)
+                .forEach((a, i) => {
+                    list.innerHTML += `
+                    <div class="announcement">
+                        <h3>📢 ${a.title}</h3>
+                        <p>${a.description}</p>
+                        <div class="category">🏷️ ${a.category}</div>
+                        <button class="remove-btn" onclick="removeAnnouncement(${i})">Remove Announcement</button>
+                    </div>`;
+                });
+        }
+
+        function filterAnnouncements(cat) {
+            document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+            event.target.classList.add("active");
+            renderAnnouncements(cat);
+        }
+
+        function openModal() {
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function addAnnouncement() {
+            announcements.unshift({
+                title: title.value,
+                description: desc.value,
+                category: category.value
+            });
+            modal.style.display = "none";
+            title.value = desc.value = "";
+            renderAnnouncements();
+        }
+
+        function removeAnnouncement(i) {
+            announcements.splice(i, 1);
+            renderAnnouncements();
+        }
+
+        window.onclick = e => {
+            if (e.target.id === "modal") modal.style.display = "none";
+        };
+
+        renderAnnouncements();
+    </script>
+
+</body>
+
+</html>

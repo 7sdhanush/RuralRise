@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard | RuralRise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            color: #333;
+        }
+
+        /* Background Balls */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .ball.blue {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            top: 10%;
+            left: 10%;
+            animation: move1 6s ease-in-out infinite alternate;
+        }
+
+        .ball.pink {
+            width: 180px;
+            height: 180px;
+            background: #ff6ec7;
+            bottom: 15%;
+            right: 12%;
+            animation: move2 8s ease-in-out infinite alternate;
+        }
+
+        .ball.green {
+            width: 150px;
+            height: 150px;
+            background: #00c6a7;
+            top: 40%;
+            right: 20%;
+            animation: move3 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, -40px);
+            }
+
+            100% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+            }
+
+            100% {
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -50px);
+            }
+
+            100% {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        /* Sidebar */
+        aside {
+            width: 230px;
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            height: 100vh;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            z-index: 5;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        aside h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        aside a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        /* Hover effect */
+        aside a:hover {
+            background-color: #4facfe;
+            transform: scale(1.05);
+            color: white;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 230px;
+            padding: 20px;
+            flex-grow: 1;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #00264d;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-grid p {
+            margin: 6px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe, #00264d);
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #eaeaea;
+            margin-top: 40px;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Balls -->
+    <div class="ball blue"></div>
+    <div class="ball pink"></div>
+    <div class="ball green"></div>
+
+    <!-- Sidebar -->
+    <aside>
+        <h2>📋 Student Menu</h2>
+        <a href="announcements.html">📢 Announcements</a>
+        <a href="calender.html">🗓️ Academic Calendar</a>
+        <a href="document_download.html">🗂️ Documents</a>
+        <a href="student_leave.html">📝 Student Leave Application</a>
+        <a href="performance_graph.html">📊 Performance</a>
+        <a href="login.html" onclick="logout()">🚪 Logout</a>
+    </aside>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <header>
+            <h1>Welcome to RuralRise</h1>
+            <p>Empowering Young Minds - Student Dashboard</p>
+        </header>
+
+        <div class="card">
+            <h2>Student Profile</h2>
+            <div class="info-grid">
+                <p><strong>Name:</strong> Dhanush S</p>
+                <p><strong>Roll Number:</strong> 7</p>
+                <p><strong>Class:</strong> 10th Standard</p>
+                <p><strong>DOB:</strong> 2009-07-25</p>
+                <p><strong>Age:</strong> 16</p>
+                <p><strong>Blood Group:</strong> B+</p>
+                <p><strong>Contact No:</strong> 9876543210</p>
+                <p><strong>Email:</strong> dhanush77@gmail.com</p>
+                <p><strong>Address:</strong> 12, Thiruvallur street, Sri Devi Nagar, Avadi, Chennai - 71</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Parent Details</h2>
+            <div class="info-grid">
+                <p><strong>Father's Name:</strong> Saravana Kumar</p>
+                <p><strong>Occupation:</strong> Central Government Employee</p>
+                <p><strong>Contact No:</strong> 9876543211</p>
+                <p><strong>Mother's Name:</strong> Sangeetha</p>
+                <p><strong>Occupation:</strong> Homemaker</p>
+                <p><strong>Contact No:</strong> 9876543212</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Attendance Record</h2>
+            <table>
+                <tr>
+                    <th>Month</th>
+                    <th>Days Present</th>
+                    <th>Days Absent</th>
+                    <th>Attendance %</th>
+                </tr>
+                <tr>
+                    <td>June</td>
+                    <td>20</td>
+                    <td>0</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>July</td>
+                    <td>21</td>
+                    <td>1</td>
+                    <td>95.5%</td>
+                </tr>
+                <tr>
+                    <td>August</td>
+                    <td>22</td>
+                    <td>2</td>
+                    <td>91.6%</td>
+                </tr>
+                <tr>
+                    <td>September</td>
+                    <td>18</td>
+                    <td>3</td>
+                    <td>85.7%</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Marks Overview</h2>
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks</th>
+                    <th>Grade</th>
+                </tr>
+                <tr>
+                    <td>Tamil</td>
+                    <td>100</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td>90</td>
+                    <td>A+</td>
+                </tr>
+                <tr>
+                    <td>Mathematics</td>
+                    <td>100</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>Science</td>
+                    <td>99</td>
+                    <td>O</td>
+                </tr>
+                <tr>
+                    <td>Social Science</td>
+                    <td>92</td>
+                    <td>A+</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer>
+            &copy; 2025 RuralRise Portal. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        function logout() {
+            alert("You have been logged out successfully!");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+
+</html>
